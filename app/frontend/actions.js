@@ -423,15 +423,20 @@ module.exports = ({setState, getState}) => {
     }
   }
 
-  const resetSendForm = (state) => {
+  const resetSendFormState = () => {
     setState({
-      sendAmount: {fieldValue: ''},
-      sendAddress: {fieldValue: ''},
       sendResponse: '',
-      transactionFee: 0,
       loading: false,
       showConfirmTransactionDialog: false,
       showTransactionErrorModal: false,
+    })
+  }
+
+  const resetSendFormFields = () => {
+    setState({
+      sendAmount: {fieldValue: ''},
+      sendAddress: {fieldValue: ''},
+      transactionFee: 0,
     })
   }
 
@@ -494,6 +499,8 @@ module.exports = ({setState, getState}) => {
       if (address === ADA_DONATION_ADDRESS) {
         setState({showThanksForDonation: true})
       }
+
+      resetSendFormFields()
     } catch (e) {
       debugLog(e)
       sendResponse = {
@@ -502,7 +509,7 @@ module.exports = ({setState, getState}) => {
         message: e.message,
       }
     } finally {
-      resetSendForm(state)
+      resetSendFormState()
       setState({
         waitingForHwWallet: false,
         sendResponse,
