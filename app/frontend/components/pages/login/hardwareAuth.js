@@ -48,7 +48,7 @@ const LoadByHardwareWalletSection = ({loadWallet, openLedgerTransportChoiceModal
       h('img', {
         class: 'authentication-image',
         src: 'assets/ledger.jpg',
-        alt: 'Ledger Nano S',
+        alt: 'Ledger Nano S/X',
       }),
       h('div', {class: 'authentication-paragraph'}, 'Ledger Nano S'),
       h('div', {class: 'authentication-paragraph small'}, 'also with Android device'),
