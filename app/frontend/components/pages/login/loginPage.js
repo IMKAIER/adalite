@@ -8,6 +8,7 @@ const MnemonicAuth = require('./mnemonicAuth')
 const HardwareAuth = require('./hardwareAuth')
 const DemoWalletWarningDialog = require('./demoWalletWarningDialog')
 const GenerateMnemonicDialog = require('./generateMnemonicDialog')
+const LedgerTransportChoiceModal = require('./ledgerTransportChoiceModal')
 const LogoutNotification = require('./logoutNotification')
 const LoginPageSidebar = require('./loginPageSidebar')
 const Tag = require('../../common/tag')
@@ -44,6 +45,8 @@ class LoginPage extends Component {
       setAuthMethod,
       enableTrezor,
       showDemoWalletWarningDialog,
+      openLedgerTransportChoiceModal,
+      showLedgerTransportChoiceModal,
       logoutNotificationOpen,
       showGenerateMnemonicDialog,
       showWalletLoadingErrorModal,
@@ -136,7 +139,7 @@ class LoginPage extends Component {
           )
         ),
         authMethod === 'mnemonic' && h(MnemonicAuth),
-        authMethod === 'hw-wallet' && h(HardwareAuth, {loadWallet}),
+        authMethod === 'hw-wallet' && h(HardwareAuth, {loadWallet, openLedgerTransportChoiceModal}),
         authMethod === 'file' && h(KeyFileAuth)
       )
     return h(
@@ -164,6 +167,7 @@ class LoginPage extends Component {
       showDemoWalletWarningDialog && h(DemoWalletWarningDialog),
       showGenerateMnemonicDialog && h(GenerateMnemonicDialog),
       logoutNotificationOpen && h(LogoutNotification),
+      showLedgerTransportChoiceModal && h(LedgerTransportChoiceModal),
       showWalletLoadingErrorModal &&
         h(WalletLoadingErrorModal, {
           closeHandler: closeWalletLoadingErrorModal,
@@ -177,6 +181,7 @@ module.exports = connect(
   (state) => ({
     authMethod: state.authMethod,
     showDemoWalletWarningDialog: state.showDemoWalletWarningDialog,
+    showLedgerTransportChoiceModal: state.showLedgerTransportChoiceModal,
     logoutNotificationOpen: state.logoutNotificationOpen,
     walletLoadingError: state.walletLoadingError,
     showGenerateMnemonicDialog: state.showGenerateMnemonicDialog,

@@ -1,7 +1,7 @@
 const {h} = require('preact')
 const {CRYPTO_PROVIDER_TYPES} = require('../../../wallet/constants')
 
-const LoadByHardwareWalletSection = ({loadWallet}) => {
+const LoadByHardwareWalletSection = ({loadWallet, openLedgerTransportChoiceModal}) => {
   const TrezorAffiliateLink = (title) =>
     h('a', {href: 'https://shop.trezor.io/?offer_id=10&aff_id=1071', target: 'blank'}, title)
 
@@ -34,7 +34,10 @@ const LoadByHardwareWalletSection = ({loadWallet}) => {
         'button',
         {
           class: 'button primary trezor',
-          onClick: () => loadWallet({cryptoProviderType: CRYPTO_PROVIDER_TYPES.TREZOR}),
+          onClick: () =>
+            loadWallet({
+              cryptoProviderType: CRYPTO_PROVIDER_TYPES.TREZOR,
+            }),
         },
         'Unlock with'
       )
@@ -58,7 +61,8 @@ const LoadByHardwareWalletSection = ({loadWallet}) => {
         'button',
         {
           class: 'button primary ledger',
-          onClick: () => loadWallet({cryptoProviderType: CRYPTO_PROVIDER_TYPES.LEDGER}),
+          // onClick: () => loadWallet({cryptoProviderType: CRYPTO_PROVIDER_TYPES.LEDGER}),
+          onClick: () => openLedgerTransportChoiceModal(),
         },
         'Unlock with'
       )

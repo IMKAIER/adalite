@@ -115,7 +115,9 @@ class LoadKeyFileClass extends Component {
             const walletSecretDef = await KeypassJson.importWalletSecretDef(walletExport, '')
 
             this.props.loadWallet({
-              cryptoProviderType: CRYPTO_PROVIDER_TYPES.WALLET_SECRET,
+              cryptoProviderType: {
+                type: CRYPTO_PROVIDER_TYPES.WALLET_SECRET,
+              },
               walletSecretDef,
             })
             this.setState({error: undefined})

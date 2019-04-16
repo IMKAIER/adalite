@@ -1,5 +1,6 @@
 const LedgerTransportU2F = require('@ledgerhq/hw-transport-u2f').default
 const LedgerTransportWebusb = require('@ledgerhq/hw-transport-webusb').default
+const LedgerTransportBle = require('@ledgerhq/hw-transport-web-ble').default
 const Ledger = require('@cardano-foundation/ledgerjs-hw-app-cardano').default
 const cbor = require('borc')
 const CachedDeriveXpubFactory = require('./helpers/CachedDeriveXpubFactory')
@@ -9,16 +10,23 @@ const derivationSchemes = require('./derivation-schemes')
 
 const CardanoLedgerCryptoProvider = async (ADALITE_CONFIG, walletState) => {
   let transport
-  try {
-    transport = await LedgerTransportU2F.create()
-  } catch (u2fError) {
+  console.log(ADALITE_CONFIG)
+
+  if (ADALITE_CONFIG.transport === 'USB') {
     try {
-      transport = await LedgerTransportWebusb.create()
-    } catch (webUsbError) {
-      debugLog(webUsbError)
-      throw u2fError
+      transport = await LedgerTransportU2F.create()
+    } catch (u2fError) {
+      try {
+        transport = await LedgerTransportWebusb.create()
+      } catch (webUsbError) {
+        debugLog(webUsbError)
+        throw u2fError
+      }
     }
+  } else if (ADALITE_CONFIG.transport === 'BLE') {
+    transport = await LedgerTransportBle.create()
   }
+
   transport.setExchangeTimeout(ADALITE_CONFIG.ADALITE_LOGOUT_AFTER * 1000)
   const ledger = new Ledger(transport)
   const state = Object.assign(walletState, {

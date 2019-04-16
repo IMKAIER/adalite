@@ -34,6 +34,7 @@ const CardanoWallet = async (options) => {
     Object.assign({}, config, {
       walletSecretDef,
       network,
+      transport: options.cryptoProviderTransport,
     }),
     state
   )

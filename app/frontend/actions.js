@@ -66,11 +66,12 @@ module.exports = ({setState, getState}) => {
     })
   }
 
-  const loadWallet = async (state, {cryptoProviderType, walletSecretDef}) => {
+  const loadWallet = async (state, {cryptoProviderType, cryptoProviderTransport, walletSecretDef}) => {
     loadingAction(state, 'Loading wallet data...', {walletLoadingError: undefined})
     try {
       wallet = await CardanoWallet({
         cryptoProviderType,
+        cryptoProviderTransport,
         walletSecretDef,
         config: ADALITE_CONFIG,
         network: NETWORKS.MAINNET,
@@ -556,6 +557,18 @@ module.exports = ({setState, getState}) => {
     })
   }
 
+  const openLedgerTransportChoiceModal = (state) => {
+    setState({
+      showLedgerTransportChoiceModal: true,
+    })
+  }
+
+  const closeLedgerTransportChoiceModal = (state) => {
+    setState({
+      showLedgerTransportChoiceModal: false,
+    })
+  }
+
   return {
     loadingAction,
     stopLoadingAction,
@@ -589,5 +602,7 @@ module.exports = ({setState, getState}) => {
     getRawTransaction,
     closeTransactionErrorModal,
     closeWalletLoadingErrorModal,
+    openLedgerTransportChoiceModal,
+    closeLedgerTransportChoiceModal,
   }
 }
