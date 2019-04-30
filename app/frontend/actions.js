@@ -423,7 +423,7 @@ module.exports = ({setState, getState}) => {
     }
   }
 
-  const resetSendFormState = () => {
+  const resetSendFormState = (state) => {
     setState({
       sendResponse: '',
       loading: false,
@@ -432,7 +432,7 @@ module.exports = ({setState, getState}) => {
     })
   }
 
-  const resetSendFormFields = () => {
+  const resetSendFormFields = (state) => {
     setState({
       sendAmount: {fieldValue: ''},
       sendAddress: {fieldValue: ''},
@@ -500,7 +500,7 @@ module.exports = ({setState, getState}) => {
         setState({showThanksForDonation: true})
       }
 
-      resetSendFormFields()
+      resetSendFormFields(state)
     } catch (e) {
       debugLog(e)
       sendResponse = {
@@ -509,7 +509,7 @@ module.exports = ({setState, getState}) => {
         message: e.message,
       }
     } finally {
-      resetSendFormState()
+      resetSendFormState(state)
       setState({
         waitingForHwWallet: false,
         sendResponse,
